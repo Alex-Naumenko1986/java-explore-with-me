@@ -25,12 +25,12 @@ import java.util.Map;
 public class StatsClient {
     private final RestTemplate restTemplate;
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
-    private final String STATS_SERVER_URL = "http://stats-server:9090";
+    private final String statsServerUrl = "http://stats-server:9090";
 
     public StatsClient(RestTemplateBuilder builder) {
         restTemplate =
                 builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(STATS_SERVER_URL))
+                        .uriTemplateHandler(new DefaultUriBuilderFactory(statsServerUrl))
                         .errorHandler(new RestTemplateResponseErrorHandler())
                         .build();
     }
