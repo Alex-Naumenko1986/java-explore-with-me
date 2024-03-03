@@ -50,6 +50,7 @@ public class CompilationPublicServiceImpl implements CompilationPublicService {
     }
 
     @Override
+    @Transactional
     public List<CompilationDto> searchCompilations(Boolean pinned, Integer from, Integer size) {
         List<Predicate> predicates = new ArrayList<>();
 

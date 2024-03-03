@@ -5,6 +5,7 @@ import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.client.StatsClient;
 import ru.practicum.ewm.dto.EndpointHitDto;
 import ru.practicum.ewm.error.exception.NotFoundException;
@@ -38,6 +39,7 @@ public class EventPublicServiceImpl implements EventPublicService {
     private final ShortEventMapper shortEventMapper;
 
     @Override
+    @Transactional
     public EventFullDto getEventById(Integer eventId, EndpointHitDto endpointHitDto) {
         EventEntity eventEntity = eventRepository.findByIdAndState(eventId, EventStatus.PUBLISHED);
 
@@ -59,6 +61,7 @@ public class EventPublicServiceImpl implements EventPublicService {
     }
 
     @Override
+    @Transactional
     public List<EventShortDto> searchEvents(UserSearchRequestDto dto, EndpointHitDto endpointHitDto) {
         if (dto.getRangeStart() != null && dto.getRangeEnd() != null && dto.getRangeStart().isAfter(dto.getRangeEnd())) {
             throw new InvalidDateRangeException("RangeStart should be before RangeEnd");

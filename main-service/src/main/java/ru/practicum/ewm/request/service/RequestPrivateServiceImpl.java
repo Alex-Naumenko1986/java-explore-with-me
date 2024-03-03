@@ -3,6 +3,7 @@ package ru.practicum.ewm.request.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.error.exception.NotFoundException;
 import ru.practicum.ewm.event.entity.EventEntity;
 import ru.practicum.ewm.event.enums.EventStatus;
@@ -29,6 +30,7 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
     private final RequestMapper requestMapper;
 
     @Override
+    @Transactional
     public RequestDto createRequest(Integer userId, Integer eventId) {
         userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException(String.format("User with id=%d was not found", userId)));
@@ -68,6 +70,7 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
     }
 
     @Override
+    @Transactional
     public List<RequestDto> getUserRequests(Integer userId) {
         userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException(String.format("User with id=%d was not found", userId)));
@@ -78,6 +81,7 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
     }
 
     @Override
+    @Transactional
     public RequestDto cancelRequest(Integer userId, Integer requestId) {
         userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException(String.format("User with id=%d was not found", userId)));

@@ -35,6 +35,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     }
 
     @Override
+    @Transactional
     public CategoryDto updateCategory(Integer categoryId, CategoryDto categoryDto) {
         repository.findById(categoryId).orElseThrow(() -> new NotFoundException(
                 String.format("Category with id=%d was not found", categoryId)));

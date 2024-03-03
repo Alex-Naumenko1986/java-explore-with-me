@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.category.dto.CategoryDto;
 import ru.practicum.ewm.category.entity.CategoryEntity;
 import ru.practicum.ewm.category.mapper.CategoryMapper;
@@ -23,6 +24,7 @@ public class CategoryPublicServiceImpl implements CategoryPublicService {
     private final CategoryMapper mapper;
 
     @Override
+    @Transactional
     public List<CategoryDto> getAllCategories(Integer from, Integer size) {
         Pageable pageable = new CustomPageable(from, size, Sort.by(Sort.Direction.ASC, "id"));
         List<CategoryEntity> categoryEntities = repository.findAll(pageable).toList();
@@ -34,6 +36,7 @@ public class CategoryPublicServiceImpl implements CategoryPublicService {
     }
 
     @Override
+    @Transactional
     public CategoryDto getCategoryById(Integer categoryId) {
         CategoryEntity categoryEntity = repository.findById(categoryId).orElseThrow(() ->
                 new NotFoundException(String.format("Category with id=%s was not found", categoryId)));

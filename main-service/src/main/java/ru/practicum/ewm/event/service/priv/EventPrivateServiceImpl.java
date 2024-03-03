@@ -93,6 +93,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     }
 
     @Override
+    @Transactional
     public EventFullDto getEventById(Integer userId, Integer eventId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d was not found", userId)));
@@ -114,6 +115,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     }
 
     @Override
+    @Transactional
     public List<EventShortDto> getUserEvents(Integer userId, Integer from, Integer size) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d was not found", userId)));
@@ -133,6 +135,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     }
 
     @Override
+    @Transactional
     public List<RequestDto> getRequestsForUserEvent(Integer userId, Integer eventId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d was not found", userId)));
@@ -154,6 +157,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     }
 
     @Override
+    @Transactional
     public EventFullDto updateEvent(Integer userId, Integer eventId, UpdateEventUserRequestDto dto) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d was not found", userId)));
@@ -225,6 +229,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     }
 
     @Override
+    @Transactional
     public RequestStatusUpdateResultDto updateRequestStatus(Integer userId, Integer eventId, RequestStatusUpdateDto dto) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d was not found", userId)));

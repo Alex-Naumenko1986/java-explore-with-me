@@ -3,6 +3,7 @@ package ru.practicum.ewm.compilation.service.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.compilation.dto.CompilationDto;
 import ru.practicum.ewm.compilation.dto.NewCompilationDto;
 import ru.practicum.ewm.compilation.dto.UpdateCompilationDto;
@@ -30,6 +31,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     private final CompilationMapper compilationMapper;
 
     @Override
+    @Transactional
     public CompilationDto createCompilation(NewCompilationDto dto) {
         CompilationEntity compilationEntity = new CompilationEntity();
         compilationEntity.setTitle(dto.getTitle());
@@ -57,6 +59,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     }
 
     @Override
+    @Transactional
     public void deleteCompilation(Integer compId) {
         compilationRepository.findById(compId).orElseThrow(() ->
                 new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
@@ -67,6 +70,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     }
 
     @Override
+    @Transactional
     public CompilationDto updateCompilation(Integer compId, UpdateCompilationDto dto) {
         CompilationEntity compilationEntity = compilationRepository.findById(compId).orElseThrow(() ->
                 new NotFoundException(String.format("Compilation with id=%d was not found", compId)));

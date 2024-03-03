@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.user.dto.UserDto;
-import ru.practicum.ewm.user.service.UserService;
+import ru.practicum.ewm.user.service.UserAdminService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -20,12 +20,12 @@ import java.util.List;
 @Validated
 public class UserAdminController {
 
-    private final UserService userService;
+    private final UserAdminService userAdminService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody @Valid UserDto userDto) {
-        UserDto createdUserDto = userService.createUser(userDto);
+        UserDto createdUserDto = userAdminService.createUser(userDto);
         log.info("Created new user: {}", createdUserDto);
         return createdUserDto;
     }
@@ -33,7 +33,7 @@ public class UserAdminController {
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable @Min(1) Integer userId) {
-        userService.deleteUser(userId);
+        userAdminService.deleteUser(userId);
         log.info("User with id {} has been deleted", userId);
     }
 
@@ -42,6 +42,6 @@ public class UserAdminController {
                                   @RequestParam(defaultValue = "0") @Min(0) Integer from,
                                   @RequestParam(defaultValue = "10") @Min(1) Integer size) {
         log.info("Getting users with parameters: ids {}, from {}, size {}", ids, from, size);
-        return userService.getUsers(ids, from, size);
+        return userAdminService.getUsers(ids, from, size);
     }
 }
