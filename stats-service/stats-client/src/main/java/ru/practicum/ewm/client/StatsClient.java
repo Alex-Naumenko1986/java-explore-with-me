@@ -25,7 +25,7 @@ import java.util.Map;
 public class StatsClient {
     private final RestTemplate restTemplate;
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
-    private final String statsServerUrl = "http://stats-server:9090";
+    private final String statsServerUrl = "http://localhost:9090";
 
     public StatsClient(RestTemplateBuilder builder) {
         restTemplate =
