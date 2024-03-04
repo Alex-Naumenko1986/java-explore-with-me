@@ -12,6 +12,7 @@ import ru.practicum.ewm.compilation.service.admin.CompilationAdminService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/admin/compilations")
@@ -24,6 +25,7 @@ public class CompilationAdminController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CompilationDto createCompilation(@RequestBody @Valid NewCompilationDto dto) {
+        log.info("Creating new compilation: {}", dto);
         CompilationDto createdCompilation = service.createCompilation(dto);
         log.info("New compilation has been created: {}", createdCompilation);
         return createdCompilation;
@@ -31,15 +33,17 @@ public class CompilationAdminController {
 
     @DeleteMapping("/{compId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCompilation(@PathVariable @Min(1) Integer compId) {
+    public void deleteCompilation(@PathVariable @NotNull @Min(1) Integer compId) {
+        log.info("Deleting compilation with id: {}", compId);
         service.deleteCompilation(compId);
         log.info("Compilation with id {} has been deleted", compId);
     }
 
     @PatchMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
-    public CompilationDto updateCompilation(@PathVariable @Min(1) Integer compId,
+    public CompilationDto updateCompilation(@PathVariable @NotNull @Min(1) Integer compId,
                                             @RequestBody @Valid UpdateCompilationDto dto) {
+        log.info("Updating compilation with id: {}, {}", compId, dto);
         CompilationDto updatedCompilation = service.updateCompilation(compId, dto);
         log.info("Compilation has been updated: {}", updatedCompilation);
         return updatedCompilation;

@@ -11,6 +11,7 @@ import ru.practicum.ewm.user.service.UserAdminService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -25,6 +26,7 @@ public class UserAdminController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody @Valid UserDto userDto) {
+        log.info("Creating new user {}", userDto);
         UserDto createdUserDto = userAdminService.createUser(userDto);
         log.info("Created new user: {}", createdUserDto);
         return createdUserDto;
@@ -32,7 +34,8 @@ public class UserAdminController {
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable @Min(1) Integer userId) {
+    public void deleteUser(@PathVariable @NotNull @Min(1) Integer userId) {
+        log.info("Deleting user with id {}", userId);
         userAdminService.deleteUser(userId);
         log.info("User with id {} has been deleted", userId);
     }

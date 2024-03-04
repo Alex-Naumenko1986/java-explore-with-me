@@ -9,6 +9,7 @@ import ru.practicum.ewm.category.dto.CategoryDto;
 import ru.practicum.ewm.category.service.pub.CategoryPublicService;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class CategoryPublicController {
 
     @GetMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
-    public CategoryDto getCategoryById(@PathVariable @Min(1) Integer catId) {
+    public CategoryDto getCategoryById(@PathVariable @NotNull @Min(1) Integer catId) {
         log.info("Getting category with id {}", catId);
         return service.getCategoryById(catId);
     }

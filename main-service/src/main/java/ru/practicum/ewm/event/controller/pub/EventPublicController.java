@@ -16,6 +16,7 @@ import ru.practicum.ewm.event.service.pub.EventPublicService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,12 +30,12 @@ public class EventPublicController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EventFullDto getEventById(@PathVariable(name = "id") @Min(1) Integer eventId,
+    public EventFullDto getEventById(@PathVariable(name = "id") @NotNull @Min(1) Integer eventId,
                                      HttpServletRequest request) {
         EndpointHitDto endpointHitDto = EndpointHitDto.builder().app("ewm-main-service")
                 .uri(request.getRequestURI()).ip(request.getRemoteAddr())
                 .timestamp(LocalDateTime.now()).build();
-
+        log.info("Getting event by id {}", eventId);
         EventFullDto event = service.getEventById(eventId, endpointHitDto);
 
         log.info("Received event: {}, endpoint hit saved: {}", event, endpointHitDto);
@@ -65,6 +66,7 @@ public class EventPublicController {
                 .paid(paid).onlyAvailable(onlyAvailable).rangeStart(rangeStart).rangeEnd(rangeEnd).sort(sort)
                 .from(from).size(size).build();
 
+        log.info("Searching events by params: {}", searchRequestDto);
         List<EventShortDto> events = service.searchEvents(searchRequestDto, endpointHitDto);
         log.info("Received list of events {} for search request {}", events, searchRequestDto);
 

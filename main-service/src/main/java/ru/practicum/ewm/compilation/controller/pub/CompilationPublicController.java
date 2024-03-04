@@ -9,6 +9,7 @@ import ru.practicum.ewm.compilation.dto.CompilationDto;
 import ru.practicum.ewm.compilation.service.pub.CompilationPublicService;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,8 @@ public class CompilationPublicController {
 
     @GetMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
-    public CompilationDto getCompilationById(@PathVariable @Min(1) Integer compId) {
+    public CompilationDto getCompilationById(@PathVariable @NotNull @Min(1) Integer compId) {
+        log.info("Getting compilation with id: {}", compId);
         CompilationDto dto = service.getCompilationById(compId);
         log.info("Compilation with id {} has been found: {}", compId, dto);
         return dto;

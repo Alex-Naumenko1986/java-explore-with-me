@@ -10,6 +10,7 @@ import ru.practicum.ewm.category.service.admin.CategoryAdminService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping(path = "/admin/categories")
@@ -22,14 +23,16 @@ public class CategoryAdminController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto createCategory(@RequestBody @Valid CategoryDto categoryDto) {
+        log.info("Creating new category: {}", categoryDto);
         CategoryDto createdCategory = service.createCategory(categoryDto);
-        log.info("New category has been created: {}", categoryDto);
+        log.info("New category has been created: {}", createdCategory);
         return createdCategory;
     }
 
     @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCategory(@PathVariable @Min(1) Integer catId) {
+    public void deleteCategory(@PathVariable @NotNull @Min(1) Integer catId) {
+        log.info("Deleting category with id: {}", catId);
         service.deleteCategory(catId);
         log.info("Category with id {} had been removed", catId);
     }
@@ -37,9 +40,10 @@ public class CategoryAdminController {
     @PatchMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
     public CategoryDto updateCategory(@RequestBody @Valid CategoryDto categoryDto,
-                                      @PathVariable @Min(1) Integer catId) {
+                                      @PathVariable @NotNull @Min(1) Integer catId) {
+        log.info("Updating category with id: {}, {}", catId, categoryDto);
         CategoryDto updatedCategory = service.updateCategory(catId, categoryDto);
-        log.info("Category with id {} has been updated: {}", catId, categoryDto);
+        log.info("Category with id {} has been updated: {}", catId, updatedCategory);
         return updatedCategory;
     }
 }

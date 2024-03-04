@@ -15,6 +15,7 @@ import ru.practicum.ewm.event.service.admin.EventAdminService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,7 +29,9 @@ public class EventAdminController {
 
     @PatchMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    public EventFullDto updateEvent(@PathVariable Integer eventId, @RequestBody @Valid UpdateEventAdminRequestDto dto) {
+    public EventFullDto updateEvent(@PathVariable @NotNull @Min(1) Integer eventId,
+                                    @RequestBody @Valid UpdateEventAdminRequestDto dto) {
+        log.info("Updating event with id: {}, {}", eventId, dto);
         EventFullDto updatedEvent = service.updateEvent(eventId, dto);
         log.info("Event with id {} has been updated: {}", eventId, updatedEvent);
         return updatedEvent;

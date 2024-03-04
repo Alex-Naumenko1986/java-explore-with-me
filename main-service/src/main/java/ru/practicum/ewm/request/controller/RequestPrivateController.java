@@ -9,6 +9,7 @@ import ru.practicum.ewm.request.dto.RequestDto;
 import ru.practicum.ewm.request.service.RequestPrivateService;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,9 @@ public class RequestPrivateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RequestDto createRequest(@PathVariable @Min(1) Integer userId, @RequestParam @Min(1) Integer eventId) {
+    public RequestDto createRequest(@PathVariable @NotNull @Min(1) Integer userId,
+                                    @RequestParam @NotNull @Min(1) Integer eventId) {
+        log.info("Creating new participation request by user with id {} for event with id {}", userId, eventId);
         RequestDto createdRequest = service.createRequest(userId, eventId);
         log.info("New participation request has been created: {}", createdRequest);
         return createdRequest;
@@ -29,7 +32,8 @@ public class RequestPrivateController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<RequestDto> getUserRequests(@PathVariable @Min(1) Integer userId) {
+    public List<RequestDto> getUserRequests(@PathVariable @NotNull @Min(1) Integer userId) {
+        log.info("Getting participation requests made by user with id {}", userId);
         List<RequestDto> requests = service.getUserRequests(userId);
         log.info("Received list of participation requests made by user with id {}, {}", userId, requests);
         return requests;
@@ -37,7 +41,9 @@ public class RequestPrivateController {
 
     @PatchMapping("/{requestId}/cancel")
     @ResponseStatus(HttpStatus.OK)
-    public RequestDto cancelRequest(@PathVariable @Min(1) Integer userId, @PathVariable @Min(1) Integer requestId) {
+    public RequestDto cancelRequest(@PathVariable @NotNull @Min(1) Integer userId,
+                                    @PathVariable @NotNull @Min(1) Integer requestId) {
+        log.info("Cancelling participation request with id {}", requestId);
         RequestDto requestDto = service.cancelRequest(userId, requestId);
         log.info("Participation request with id {} has been cancelled", requestId);
         return requestDto;

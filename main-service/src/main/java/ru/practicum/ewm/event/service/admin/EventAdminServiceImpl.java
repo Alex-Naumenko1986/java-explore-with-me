@@ -60,6 +60,11 @@ public class EventAdminServiceImpl implements EventAdminService {
         eventEntity.setRequestModeration(Objects.requireNonNullElse(dto.getRequestModeration(),
                 eventEntity.getRequestModeration()));
 
+
+        if (dto.getStateAction() != null && eventStatus != EventStatus.PENDING) {
+            throw new IllegalEventOperationException("Event status must be PENDING");
+        }
+
         if (dto.getEventDate() != null && eventEntity.getState() == EventStatus.PUBLISHED
                 && !eventEntity.getPublishedOn().plusHours(1).isBefore(dto.getEventDate())) {
             throw new InvalidEventStartTimeException("Event should start at time, which is not earlier than " +
@@ -87,21 +92,11 @@ public class EventAdminServiceImpl implements EventAdminService {
                         throw new InvalidEventStartTimeException("Event should start at time, which is not earlier than " +
                                 "one hour after publication date");
                     }
-                    if (eventEntity.getState() == EventStatus.PENDING) {
-                        eventEntity.setState(EventStatus.PUBLISHED);
-                        eventEntity.setPublishedOn(LocalDateTime.now());
-                    } else {
-                        throw new IllegalEventOperationException(String.format("Event with id=%d is in status %s and it's status " +
-                                "can't be changed to PUBLISHED", eventId, eventStatus));
-                    }
+                    eventEntity.setState(EventStatus.PUBLISHED);
+                    eventEntity.setPublishedOn(LocalDateTime.now());
                     break;
                 case REJECT_EVENT:
-                    if (eventEntity.getState() == EventStatus.PENDING) {
-                        eventEntity.setState(EventStatus.CANCELED);
-                    } else {
-                        throw new IllegalEventOperationException(String.format("Event with id=%d is in status %s and it's status " +
-                                "can't be changed to CANCELLED", eventId, eventStatus));
-                    }
+                    eventEntity.setState(EventStatus.CANCELED);
             }
         }
 
