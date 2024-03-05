@@ -1,10 +1,7 @@
 package ru.practicum.ewm.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import ru.practicum.ewm.constant.Constants;
 
 import javax.validation.constraints.NotBlank;
@@ -14,16 +11,17 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString
 public class EndpointHitDto {
     private Integer id;
-    @NotBlank
+    @NotBlank(message = "Field app should not be blank")
     private String app;
-    @NotBlank
+    @NotBlank(message = "Field uri should not be blank")
     private String uri;
-    @NotBlank
+    @NotBlank(message = "Field ip should not be blank")
     private String ip;
-    @NotNull
+    @NotNull(message = "Field timestamp should not be null")
     @JsonFormat(pattern = Constants.DATE_TIME_FORMAT)
     private LocalDateTime timestamp;
 }
