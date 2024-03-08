@@ -319,8 +319,8 @@ public class EventPrivateServiceImpl implements EventPrivateService {
 
         Pageable pageable = new CustomPageable(from, size, Sort.by(Sort.Direction.ASC, "id"));
 
-        List<EventEntity> eventEntities = eventRepository.findByInitiator_IdInAndStateAndEventDateAfter
-                (user.getSubscribedOn(), EventStatus.PUBLISHED, LocalDateTime.now(), pageable);
+        List<EventEntity> eventEntities = eventRepository.findByInitiator_IdInAndStateAndEventDateAfter(
+                user.getSubscribedOn(), EventStatus.PUBLISHED, LocalDateTime.now(), pageable);
 
         eventFieldSetter.setConfirmedRequests(eventEntities);
         eventFieldSetter.setViews(eventEntities);
