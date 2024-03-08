@@ -32,7 +32,7 @@ public class UserPrivateServiceImpl implements UserPrivateService {
                 -> new NotFoundException(String.format("User with id=%d was not found", userId)));
 
         UserEntity subscribeOnUser = userRepository.findById(subscribeOnId).orElseThrow(()
-                -> new NotFoundException(String.format("User with id=%d was not found", userId)));
+                -> new NotFoundException(String.format("User with id=%d was not found", subscribeOnId)));
 
         if (userId.equals(subscribeOnId)) {
             throw new IllegalSubscriptionOperationException("The user can not subscribe to himself");
@@ -66,7 +66,7 @@ public class UserPrivateServiceImpl implements UserPrivateService {
                 -> new NotFoundException(String.format("User with id=%d was not found", userId)));
 
         userRepository.findById(subscribedOnId).orElseThrow(()
-                -> new NotFoundException(String.format("User with id=%d was not found", userId)));
+                -> new NotFoundException(String.format("User with id=%d was not found", subscribedOnId)));
 
         if (!user.getSubscribedOn().contains(subscribedOnId)) {
             throw new IllegalSubscriptionOperationException(String.format("The user with id=%d is not subscribed" +
