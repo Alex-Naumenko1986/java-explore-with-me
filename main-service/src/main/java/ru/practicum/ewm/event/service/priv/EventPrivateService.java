@@ -18,4 +18,6 @@ public interface EventPrivateService {
     EventFullDto updateEvent(Integer userId, Integer eventId, UpdateEventUserRequestDto dto);
 
     RequestStatusUpdateResultDto updateRequestStatus(Integer userId, Integer eventId, RequestStatusUpdateDto dto);
+
+    List<EventShortDto> getEventsBySubscription(Integer userId, Integer from, Integer size);
 }

@@ -86,4 +86,15 @@ public class EventPrivateController {
 
         return updateResult;
     }
+
+    @GetMapping("/subscriptions")
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventShortDto> getEventsBySubscription(@PathVariable @NotNull @Min(1) Integer userId,
+                                                       @RequestParam(defaultValue = "0") @Min(0) Integer from,
+                                                       @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+        log.info("Getting events by subscription for user with id {}, from {}, size {}", userId, from, size);
+        List<EventShortDto> events = service.getEventsBySubscription(userId, from, size);
+        log.info("Received list of events by subscription: {}", events);
+        return events;
+    }
 }

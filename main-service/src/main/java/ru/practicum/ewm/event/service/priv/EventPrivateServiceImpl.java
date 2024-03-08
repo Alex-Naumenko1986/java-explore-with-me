@@ -310,4 +310,24 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             return resultDto;
         }
     }
+
+    @Override
+    @Transactional
+    public List<EventShortDto> getEventsBySubscription(Integer userId, Integer from, Integer size) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(String.format("User with id=%d was not found", userId)));
+
+        Pageable pageable = new CustomPageable(from, size, Sort.by(Sort.Direction.ASC, "id"));
+
+        List<EventEntity> eventEntities = eventRepository.findByInitiator_IdInAndStateAndEventDateAfter
+                (user.getSubscribedOn(), EventStatus.PUBLISHED, LocalDateTime.now(), pageable);
+
+        eventFieldSetter.setConfirmedRequests(eventEntities);
+        eventFieldSetter.setViews(eventEntities);
+
+        List<EventShortDto> events = eventEntities.stream().map(shortEventMapper::toDto).collect(Collectors.toList());
+
+        log.info("List of events received from database: {}", events);
+        return events;
+    }
 }

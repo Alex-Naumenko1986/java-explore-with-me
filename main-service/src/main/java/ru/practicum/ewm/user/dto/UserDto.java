@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -22,4 +23,6 @@ public class UserDto {
     @Size(min = 6, message = "Field email can't be shorter than 6 symbols")
     @Size(max = 254, message = "Field email can't be longer than 254 symbols")
     private String email;
+    private Boolean subscriptionAvailable;
+    private List<UserShortDto> subscribedOn;
 }

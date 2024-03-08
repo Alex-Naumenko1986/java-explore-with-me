@@ -12,4 +12,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     List<UserEntity> findByIdIn(Collection<Integer> ids, Pageable pageable);
 
+    List<UserEntity> findByIdIn(Collection<Integer> ids);
+
 }
