@@ -1,0 +1,1072 @@
+{
+  "info": {
+    "_postman_id": "dcfa012c-0c69-42b3-9d3d-58874f1b88b6",
+    "name": "Test Explore With Me - Subscriptions Feat",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "28912486"
+  },
+  "item": [
+    {
+      "name": "Создание первого пользователя",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Поле subscriptionAvailable должно присутствовать и быть true\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('subscriptionAvailable');\r",
+              "    pm.expect(jsonData.subscriptionAvailable).to.eql(true);\r",
+              "});\r",
+              "pm.test(\"Поле subscribedOn должно быть пустым массивом\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('subscribedOn');\r",
+              "    pm.expect(jsonData.subscribedOn).is.an('array');\r",
+              "    pm.expect(jsonData.subscribedOn.length).to.eql(0);\r",
+              "});\r",
+              "\r",
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"user1Id\", jsonData.id);\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"petrov@yandex.ru\",\r\n  \"name\": \"Петров Иван\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Создание второго пользователя",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"user2Id\", jsonData.id);\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"ivanov@yandex.ru\",\r\n  \"name\": \"Иванов Александр\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Создание третьего пользователя с запрещенной подпиской",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Поле subscriptionAvailable должно присутствовать и быть false\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('subscriptionAvailable');\r",
+              "    pm.expect(jsonData.subscriptionAvailable).to.eql(false);\r",
+              "});\r",
+              "\r",
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"user3Id\", jsonData.id);\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"naumenko@yandex.ru\",\r\n  \"name\": \"Науменко Александр\",\r\n   \"subscriptionAvailable\": false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Добавление категории",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"catId\", jsonData.id);\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Разное\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/categories",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "categories"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Добавление 1-го события вторым пользователем",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"event1Id\", jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"annotation\": \"Сплав на байдарках похож на полет.\",\r\n  \"category\": {{catId}},\r\n  \"description\": \"Сплав на байдарках похож на полет. На спокойной воде — это парение. На бурной, порожистой — выполнение фигур высшего пилотажа. И то, и другое дарят чувство обновления, феерические эмоции, яркие впечатления.\",\r\n  \"eventDate\": \"2024-04-24 19:00:00\",\r\n  \"location\": {\r\n    \"lat\": 55.754167,\r\n    \"lon\": 37.62\r\n  },\r\n  \"paid\": true,\r\n  \"participantLimit\": 10,\r\n  \"requestModeration\": false,\r\n  \"title\": \"Сплав на байдарках\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user2Id}}/events",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user2Id}}",
+            "events"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Добавление 2-го события вторым пользователем",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"event2Id\", jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"annotation\": \"Интересный балет Лебединое озеро\",\r\n  \"category\": {{catId}},\r\n  \"description\": \"Интереснейший балет Лебединое озеро с профессиональными актерами и живой музыкой подарит вам незабываемые впечатления.\",\r\n  \"eventDate\": \"2024-05-01 19:00:00\",\r\n  \"location\": {\r\n    \"lat\": 55.754167,\r\n    \"lon\": 37.62\r\n  },\r\n  \"paid\": true,\r\n  \"participantLimit\": 5,\r\n  \"requestModeration\": false,\r\n  \"title\": \"Балет Лебединое озеро\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user2Id}}/events",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user2Id}}",
+            "events"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Добавление 3-го события третьим пользователем",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"event3Id\", jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"annotation\": \"Заряжающий адреналином страйкбол в лесу\",\r\n  \"category\": {{catId}},\r\n  \"description\": \"Страйкбол в лесу - это зажигательная игра на свежем воздухе с высокой физической активностью\",\r\n  \"eventDate\": \"2024-06-01 12:00:00\",\r\n  \"location\": {\r\n    \"lat\": 55.754167,\r\n    \"lon\": 37.62\r\n  },\r\n  \"paid\": true,\r\n  \"participantLimit\": 15,\r\n  \"requestModeration\": false,\r\n  \"title\": \"Страйкбол в лесу\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user3Id}}/events",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user3Id}}",
+            "events"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Первый пользователь подписывается на второго",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Поле subscribedOn должно быть массивом и содержать второго пользователя\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('subscribedOn');\r",
+              "    pm.expect(jsonData.subscribedOn).is.an('array');\r",
+              "    pm.expect(jsonData.subscribedOn.length).to.eql(1);\r",
+              "    pm.expect(jsonData.subscribedOn[0].id).to.eql(pm.collectionVariables.get(\"user2Id\"));\r",
+              "    pm.expect(jsonData.subscribedOn[0].name).to.eql('Иванов Александр');\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user1Id}}/subscriptions/{{user2Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user1Id}}",
+            "subscriptions",
+            "{{user2Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Попытка подписаться на третьего пользователя с запрещенной подпиской",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 409 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user1Id}}/subscriptions/{{user3Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user1Id}}",
+            "subscriptions",
+            "{{user3Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Попытка подписаться на самого себя",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 409 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user1Id}}/subscriptions/{{user1Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user1Id}}",
+            "subscriptions",
+            "{{user1Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Попытка подписаться повторно",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 409 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user1Id}}/subscriptions/{{user2Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user1Id}}",
+            "subscriptions",
+            "{{user2Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Попытка подписаться на несуществующего пользователя",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 404 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user1Id}}/subscriptions/1000",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user1Id}}",
+            "subscriptions",
+            "1000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Третий пользователь разрешает подписку на себя",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Поле subscriptionAvailable должно присутствовать и быть true\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('subscriptionAvailable');\r",
+              "    pm.expect(jsonData.subscriptionAvailable).to.eql(true);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user3Id}}/subscriptions?available=true",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user3Id}}",
+            "subscriptions"
+          ],
+          "query": [
+            {
+              "key": "available",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Третий пользователь повторно разрешает подписку на себя",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 409 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user3Id}}/subscriptions?available=true",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user3Id}}",
+            "subscriptions"
+          ],
+          "query": [
+            {
+              "key": "available",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Первый пользователь подписывается на третьего",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Поле subscribedOn должно быть массивом и содержать второго и третьего пользователя\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('subscribedOn');\r",
+              "    pm.expect(jsonData.subscribedOn).is.an('array');\r",
+              "    pm.expect(jsonData.subscribedOn.length).to.eql(2);\r",
+              "    pm.expect(jsonData.subscribedOn[0].id).to.eql(pm.collectionVariables.get(\"user2Id\"));\r",
+              "    pm.expect(jsonData.subscribedOn[0].name).to.eql('Иванов Александр');\r",
+              "    pm.expect(jsonData.subscribedOn[1].id).to.eql(pm.collectionVariables.get(\"user3Id\"));\r",
+              "    pm.expect(jsonData.subscribedOn[1].name).to.eql('Науменко Александр');\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user1Id}}/subscriptions/{{user3Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user1Id}}",
+            "subscriptions",
+            "{{user3Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Третий пользователь подписывается на первого",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user3Id}}/subscriptions/{{user1Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user3Id}}",
+            "subscriptions",
+            "{{user1Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Третий пользователь отменяет подписку на первого",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Поле subscribedOn должно быть пустым массивом\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('subscribedOn');\r",
+              "    pm.expect(jsonData.subscribedOn).is.an('array');\r",
+              "    pm.expect(jsonData.subscribedOn.length).to.eql(0);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user3Id}}/subscriptions/{{user1Id}}/cancel",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user3Id}}",
+            "subscriptions",
+            "{{user1Id}}",
+            "cancel"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Получение администратором данных о пользователе с информацией о подписках",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Поле subscribedOn должно быть массивом и содержать второго и третьего пользователя\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).is.an('array');\r",
+              "    pm.expect(jsonData.length).to.eql(1);\r",
+              "    pm.expect(jsonData[0]).to.have.property('subscribedOn');\r",
+              "    pm.expect(jsonData[0].subscribedOn).is.an('array');\r",
+              "    pm.expect(jsonData[0].subscribedOn.length).to.eql(2);\r",
+              "    pm.expect(jsonData[0].subscribedOn[0].id).to.eql(pm.collectionVariables.get(\"user2Id\"));\r",
+              "    pm.expect(jsonData[0].subscribedOn[0].name).to.eql('Иванов Александр');\r",
+              "    pm.expect(jsonData[0].subscribedOn[1].id).to.eql(pm.collectionVariables.get(\"user3Id\"));\r",
+              "    pm.expect(jsonData[0].subscribedOn[1].name).to.eql('Науменко Александр');\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/admin/users/?ids={{user1Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "users",
+            ""
+          ],
+          "query": [
+            {
+              "key": "ids",
+              "value": "{{user1Id}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Получение пользователем данных о себе с информацией о подписках",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Поле subscribedOn должно быть массивом и содержать второго и третьего пользователя\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('subscribedOn');\r",
+              "    pm.expect(jsonData.subscribedOn).is.an('array');\r",
+              "    pm.expect(jsonData.subscribedOn.length).to.eql(2);\r",
+              "    pm.expect(jsonData.subscribedOn[0].id).to.eql(pm.collectionVariables.get(\"user2Id\"));\r",
+              "    pm.expect(jsonData.subscribedOn[0].name).to.eql('Иванов Александр');\r",
+              "    pm.expect(jsonData.subscribedOn[1].id).to.eql(pm.collectionVariables.get(\"user3Id\"));\r",
+              "    pm.expect(jsonData.subscribedOn[1].name).to.eql('Науменко Александр');\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user1Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user1Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Администратор публикует первое событие",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"stateAction\": \"PUBLISH_EVENT\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/events/{{event1Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "events",
+            "{{event1Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Администратор публикует второе событие",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"stateAction\": \"PUBLISH_EVENT\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/events/{{event2Id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "events",
+            "{{event2Id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Получение событий для пользователя без подписок",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Полученный ответ должен быть пустым массивом\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).is.an('array');\r",
+              "    pm.expect(jsonData.length).to.eql(0);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user3Id}}/events/subscriptions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user3Id}}",
+            "events",
+            "subscriptions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Получение событий для пользователя с подписками",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Полученный ответ должен содержать первое и второе событие\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).is.an('array');\r",
+              "    pm.expect(jsonData.length).to.eql(2);\r",
+              "    pm.expect(jsonData[0].id).to.eql(pm.collectionVariables.get(\"event1Id\"));\r",
+              "    pm.expect(jsonData[0].title).to.eql('Сплав на байдарках');\r",
+              "    pm.expect(jsonData[1].id).to.eql(pm.collectionVariables.get(\"event2Id\"));\r",
+              "    pm.expect(jsonData[1].title).to.eql('Балет Лебединое озеро');\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{user1Id}}/events/subscriptions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{user1Id}}",
+            "events",
+            "subscriptions"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "user1Id",
+      "value": ""
+    },
+    {
+      "key": "user2Id",
+      "value": ""
+    },
+    {
+      "key": "user3Id",
+      "value": ""
+    },
+    {
+      "key": "catId",
+      "value": ""
+    },
+    {
+      "key": "event1Id",
+      "value": ""
+    },
+    {
+      "key": "event2Id",
+      "value": ""
+    },
+    {
+      "key": "event3Id",
+      "value": ""
+    }
+  ]
+}

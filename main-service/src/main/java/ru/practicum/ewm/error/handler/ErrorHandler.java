@@ -16,6 +16,7 @@ import ru.practicum.ewm.event.exception.IllegalEventOperationException;
 import ru.practicum.ewm.event.exception.InvalidDateRangeException;
 import ru.practicum.ewm.event.exception.InvalidEventStartTimeException;
 import ru.practicum.ewm.request.exception.IllegalRequestOperationException;
+import ru.practicum.ewm.user.exception.IllegalSubscriptionOperationException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -84,6 +85,18 @@ public class ErrorHandler {
                 .timestamp(formatter.format(LocalDateTime.now()))
                 .build();
         log.error("Error occurred. Illegal operation when creating participation request:{}", errorResponse);
+        return errorResponse;
+    }
+
+    @ExceptionHandler(IllegalSubscriptionOperationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleIllegalSubscriptionOperationException(IllegalSubscriptionOperationException e) {
+        ErrorResponse errorResponse = ErrorResponse.builder().status(HttpStatus.CONFLICT.toString())
+                .reason("Trying to perform illegal operation on subscriptions")
+                .message(e.getMessage())
+                .timestamp(formatter.format(LocalDateTime.now()))
+                .build();
+        log.error("Error occurred. Illegal operation with subscriptions:{}", errorResponse);
         return errorResponse;
     }
 

@@ -1,4 +1,4 @@
-package ru.practicum.ewm.user.controller;
+package ru.practicum.ewm.user.controller.admin;
 
 
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.user.dto.UserDto;
-import ru.practicum.ewm.user.service.UserAdminService;
+import ru.practicum.ewm.user.service.admin.UserAdminService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
